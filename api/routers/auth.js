@@ -36,16 +36,16 @@ router.post("/login", async (req, res) => {
  
   //Check user exists
   const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(404).json("User not exists!");
-  }
+    if (!user) {
+      return res.status(404).json("User not exists!");
+    }
 
   //Check if password match
   const checkPassword = await bcrypt.compare(password, user.password);
 
-  if (!checkPassword) {
-  return res.status(404).json({msg:"Autentication is successfully", token}); 
-  }
+    if (!checkPassword) {
+    return res.status(404).json({msg:"Autentication is successfully", token}); 
+    }
 
   try {
     const secret = process.env.SECRET;
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
       },
       secret,   
     )
-    res.cookie("Access_token", token, { 
+    res.cookie("Access_token", token, {  
       httpOnly: true 
     })
     res.status(200).json(username) 
@@ -65,6 +65,7 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json("Error at the Server");
+    
   }
    
 });
